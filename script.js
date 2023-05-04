@@ -116,41 +116,37 @@ let productData = [
 
 let container = document.querySelector('#container');
 let filter = document.getElementById('filter');
-// let sortButtonInc = document.getElementById('sortInc');
-// let sortButtonDec = document.getElementById('sortDec');
 
-// sortButtonInc.addEventListener('click', function () {
-//   let sortIncData = productData.sort((a, b) => a - b)
-//   console.log(sortIncData)
-//   // display(sortIncData);
-// })
+// 5 for getting the data in localstorage
+let LSData = localStorage.getItem('cart')
 
+if (LSData === null) {
+  LSData = []
+} else {
+  LSData = JSON.parse(LSData)
+}
 
-// filter function on filter button
+// 2. filter function on filter button
 filter.addEventListener('change', function () {
   if (filter.value === "") {
-    display(productData);
+    display(productData); // select option empty strin - show all data
   } else {
     let filterData = productData.filter(function (element) {
       if (element.category === filter.value) {
-         return true;
+         return true; // true means element added in the array
       } else {
-        return false;
+        return false; 
       }
     })
     // console.log(filterData)
   display(filterData) //filtered data display
   }
-
-  
-
 })
-
-
-
+// 1 .ui created from dom
 display(productData); //data will display on web
 function display(data) {
-  container.innerHTML="" //none -after filter previous data should be delete that's why making container empty
+  // clear the dom brfore do any loop/appending
+  container.innerHTML="" // or none
   for (let i = 0; i < data.length; i++) {
     let div = document.createElement('div');
   
@@ -168,11 +164,12 @@ function display(data) {
   
     let rating = document.createElement('h4');
     rating.innerText = data[i].rating.rate;
-
+    // 3 on button click adding data to cart
     let addToCart = document.createElement('button');
     addToCart.innerText = "Cart"
     addToCart.addEventListener('click', function () {
       LSData.push(data[i]);
+      // 4 . on cart button click data stored in localstorage
       localStorage.setItem('cart',JSON.stringify(LSData))
     })
   

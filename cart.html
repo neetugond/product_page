@@ -21,6 +21,7 @@
   </body>
   <script>
         let container = document.querySelector('#container');
+        // 5. from getting the data 
         let LSData = localStorage.getItem('cart')
 
     if (LSData === null) {
@@ -28,8 +29,9 @@
     } else {
       LSData = JSON.parse(LSData)
     }
-
-    display(LSData); //data will display on web
+ // 7 .localstorage data will display on dom cart page
+    display(LSData); 
+    // 6. ui created
     function display(data) {
       container.innerHTML="" //none -after filter previous data should be delete that's why making container empty
       for (let i = 0; i < data.length; i++) {
@@ -50,14 +52,32 @@
         let rating = document.createElement('h4');
         rating.innerText = data[i].rating.rate;
 
-        let deleteBtn = document.createElement('button');
-        deleteBtn.innerText = "delete";
-        deleteBtn.addEventListener('click', function () {
-          LSData.innerHTML = "";
-        //   localStorage.setItem('cart',JSON.stringify(LSData))
+        // 7 .delete filter functionality
+
+        let deleteFromCart = document.createElement('button');
+        deleteFromCart.innerText = "delete";
+        deleteFromCart.addEventListener('click', function () {
+            // if index match to the click deleted button data deleted
+            LSData = LSData.filter(function(element, index){
+                if(i === index){
+                    return false; //remove from array
+                }else{
+                    return true;
+                }
+            })
+            console.log(LSData)
+            
+            // 8. after deleting from the card need to store in localstorage
+            
+            //getItem call above for this also that's why key name given cart
+            // storing the data again in localstorage
+            localStorage.setItem('cart',JSON.stringify(LSData))
+             
+            //data deleted form above code but after refresh data is showing so for updating dom we need to call function
+            display(LSData) 
         })
 
-        div.append(image, title, price, category, rating, deleteBtn)
+        div.append(image, title, price, category, rating, deleteFromCart)
         container.append(div)
 
       }
