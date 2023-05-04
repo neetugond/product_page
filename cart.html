@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>cart page</h1>
+    <div class="navbar">
+      <button id="homeBtn">
+        <a href="./index.html">Home</a>
+      </button>
+      <button id="cartBtn">
+        <a href="./cart.html">cart</a>
+      </button>
+    </div>
+    <div id="container"></div>
+  </body>
+  <script>
+        let container = document.querySelector('#container');
+        let LSData = localStorage.getItem('cart')
+
+    if (LSData === null) {
+      LSData = []
+    } else {
+      LSData = JSON.parse(LSData)
+    }
+
+    display(LSData); //data will display on web
+    function display(data) {
+      container.innerHTML="" //none -after filter previous data should be delete that's why making container empty
+      for (let i = 0; i < data.length; i++) {
+        let div = document.createElement('div');
+
+        let image = document.createElement('img');
+        image.setAttribute('src', data[i].image);
+
+        let title = document.createElement('h1');
+        title.innerText = data[i].title;
+
+        let price = document.createElement('h3');
+        price.innerText = data[i].price;
+
+        let category = document.createElement('h3');
+        category.innerText = data[i].category;
+
+        let rating = document.createElement('h4');
+        rating.innerText = data[i].rating.rate;
+
+        let deleteBtn = document.createElement('button');
+        deleteBtn.innerText = "delete";
+        deleteBtn.addEventListener('click', function () {
+          LSData.innerHTML = "";
+        //   localStorage.setItem('cart',JSON.stringify(LSData))
+        })
+
+        div.append(image, title, price, category, rating, deleteBtn)
+        container.append(div)
+
+      }
+      // console.log(container)
+    }
+  </script>
+</html>

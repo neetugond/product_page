@@ -116,19 +116,37 @@ let productData = [
 
 let container = document.querySelector('#container');
 let filter = document.getElementById('filter');
+// let sortButtonInc = document.getElementById('sortInc');
+// let sortButtonDec = document.getElementById('sortDec');
 
+// sortButtonInc.addEventListener('click', function () {
+//   let sortIncData = productData.sort((a, b) => a - b)
+//   console.log(sortIncData)
+//   // display(sortIncData);
+// })
+
+
+// filter function on filter button
 filter.addEventListener('change', function () {
-  let filterData = productData.filter(function (element) {
-    if (element.category === filter.value) {
-       return true;
-    } else {
-      return false;
-    }
-  })
-  // console.log(filterData)
-  display(filterData)
+  if (filter.value === "") {
+    display(productData);
+  } else {
+    let filterData = productData.filter(function (element) {
+      if (element.category === filter.value) {
+         return true;
+      } else {
+        return false;
+      }
+    })
+    // console.log(filterData)
+  display(filterData) //filtered data display
+  }
+
+  
 
 })
+
+
 
 display(productData); //data will display on web
 function display(data) {
@@ -150,8 +168,15 @@ function display(data) {
   
     let rating = document.createElement('h4');
     rating.innerText = data[i].rating.rate;
+
+    let addToCart = document.createElement('button');
+    addToCart.innerText = "Cart"
+    addToCart.addEventListener('click', function () {
+      LSData.push(data[i]);
+      localStorage.setItem('cart',JSON.stringify(LSData))
+    })
   
-    div.append(image, title, price, category, rating)
+    div.append(image, title, price, category, rating, addToCart)
     container.append(div)
   
   }
